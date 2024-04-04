@@ -91,16 +91,18 @@ func (q *Queries) GetLine(ctx context.Context, id int64) (GetLineRow, error) {
 
 const getLines = `-- name: GetLines :many
 SELECT 
-  lines.id as line_id, 
-  lines.name as line_name, 
+  l.id AS line_id, 
+  l.name AS line_name, 
   GROUP_CONCAT(l2.name) as neighbors
-FROM lines
-  JOIN nodes ON lines.n_id = nodes.n_id
-  JOIN nodes as n2 ON nodes.node_id = n2.node_id and nodes.n_id != n2.n_id
-  JOIN lines as l2 ON n2.n_id = l2.n_id
+FROM lines AS l
+  JOIN nodes AS n  ON l.n_id = n.n_id
+  JOIN nodes AS n2 ON n.node_id = n2.node_id and n.n_id != n2.n_id
+  JOIN lines AS l2 ON n2.n_id = l2.n_id
 GROUP BY 
-  lines.id, 
-  lines.name
+  l.id, 
+  l.name
+ORDER BY 
+  n.node_id
 `
 
 type GetLinesRow struct {

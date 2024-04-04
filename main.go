@@ -76,7 +76,7 @@ func CreateMoreLines(ctx context.Context, queries *app.Queries) {
 	fmt.Printf("Created node: %v\n", node)
 	// Insert Connection AC for Pipe A
 	node, err = queries.CreateNode(ctx, app.CreateNodeParams{
-		Name:   sql.NullString{String: "Connection CA", Valid: true},
+		Name:   sql.NullString{String: "Connection AC", Valid: true},
 		NodeID: sql.NullInt64{Int64: 2, Valid: true},
 		NID:    sql.NullInt64{Int64: 1, Valid: true},
 	})
